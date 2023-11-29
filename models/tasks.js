@@ -13,8 +13,14 @@ const tasks = db.define("tasks", {
         required: true
     },
     status: {
-        type: DataTypes.STRING,
+        type: DataTypes.BOOLEAN,
         allowNull: false,
+        defaultValue: false
+    },
+    user_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        required: true
     },
 },
     {
