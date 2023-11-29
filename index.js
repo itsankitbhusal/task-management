@@ -6,6 +6,8 @@ import db from "./config/db.js"
 
 import routes from './routes/index.js';
 
+import { verifyAccessToken, verifyRefreshToken } from "./middlewares/index.js"
+
 
 const app = express();
 app.use(cors());
@@ -15,6 +17,7 @@ app.get('/', (req, res) => {
     res.send('Hello World');
 });
 app.use('/user', routes.userRouter);
+app.use('/task', verifyAccessToken, verifyRefreshToken, routes.taskRoutes);
 
 app.listen(process.env.PORT, async () => {
     await db.authenticate();
