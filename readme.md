@@ -1,8 +1,10 @@
 # Task-Management FullStack webapp ✍
 
-Simple multi user **Task management** fullstack webapp using JavaScript. Made secure with JWT access and refresh token mechanism.
+Multiuser **Task Management** web app prioritizing robust security measures. By leveraging JWT, I ensure secure user access through an auto-renewed token stored in local storage, expiring after 15 mins. To enhance protection, a 7-day HTTP-only cookie handles refresh tokens, guiding users to log in for an added layer of security. 💻🔐
 
-## 👉 [API Documentation](https://documenter.getpostman.com/view/23451188/2s9YeG7XnC)
+### For api documentation follow this link: 👉 [API Documentation](https://documenter.getpostman.com/view/23451188/2s9YeG7XnC)
+
+### Project Demo: 👉 [Task Management WebApp (YouTUbe)](https://youtu.be/3AevM0zyfrk)
 
 ## Libraries used:
 
