@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { BASE_URL } from "../constants";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import request from "../api/axios";
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -13,7 +12,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await axios.post(`${BASE_URL}/user/register`, {
+    const response = await request.post(`/user/register`, {
       username,
       password,
     });
