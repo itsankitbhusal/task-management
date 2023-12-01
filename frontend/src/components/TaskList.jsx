@@ -1,6 +1,5 @@
-import axios from "axios";
+import request from "../api/axios";
 import { useState } from "react";
-import { BASE_URL } from "../constants";
 import { toast } from "react-toastify";
 import { AiOutlineDelete } from "react-icons/ai";
 
@@ -14,7 +13,7 @@ const TaskList = ({ task, deleteTask }) => {
   };
 
   const updateTask = async () => {
-    const response = await axios.put(`${BASE_URL}/task/${task.id}`, {
+    const response = await request.put(`/task/${task.id}`, {
       status: !isChecked,
     });
     const data = response.data;
