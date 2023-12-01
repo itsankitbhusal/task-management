@@ -1,19 +1,21 @@
 import { useState } from "react";
 import TaskList from "./TaskList";
-import axios from "axios";
-import { BASE_URL } from "../constants";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+
 
 const AddTask = () => {
   const [title, setTitle] = useState("");
   const [taskList, setTaskList] = useState(null);
 
+  const request = useAxiosPrivate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await axios.post(`${BASE_URL}/task`, { title });
-    // console.log("response: ", response);
+    const response = await request.post(`/task`, { title });
+    console.log("response: ", response);
     const data = await response.data;
     console.log("data.data: ", data.data);
     if (data.success) {
@@ -24,8 +26,9 @@ const AddTask = () => {
   };
 
   const fetchTaskList = async () => {
-    const response = await axios.get(`${BASE_URL}/task`);
-    const data = response.data;
+    console.log("fetch task list function ran")
+    const response = await request.get(`/task`);
+    const data = await response.data;
     if (data.success) {
       setTaskList(data.data);
     }
@@ -35,7 +38,7 @@ const AddTask = () => {
   }, []);
 
   const deleteTask = async (id) => {
-    const response = await axios.delete(`${BASE_URL}/task/${id}`);
+    const response = await request.delete(`/task/${id}`);
     const data = response.data;
 
     if (data.success) {
@@ -48,7 +51,10 @@ const AddTask = () => {
 
   return (
     <div className=" grid place-items-center">
-      <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow w-10/12 mt-8">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white p-6 rounded-lg shadow w-10/12 mt-8"
+      >
         <div className="mb-4">
           <label htmlFor="title" className="block text-gray-700 font-medium">
             Title
@@ -71,15 +77,15 @@ const AddTask = () => {
       </form>
       <hr className="w-8/12 h-[1px] mx-auto bg-gray-300 border-0 rounded md:my-10" />
       <div className="grid place-items-center w-full">
-      {taskList !== null &&
-        taskList.map((task) => {
-          return (
-            <div key={task?.id} className=" w-10/12">
-              <TaskList task={task} deleteTask={deleteTask} />
-            </div>
-          );
-        })}
-        </div>
+        {taskList !== null &&
+          taskList.map((task) => {
+            return (
+              <div key={task?.id} className=" w-10/12">
+                <TaskList task={task} deleteTask={deleteTask} />
+              </div>
+            );
+          })}
+      </div>
     </div>
   );
 };

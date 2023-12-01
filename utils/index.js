@@ -12,7 +12,7 @@ const success = data => ({
 // sign access token
 const signAccessToken = (id, username) => {
   return jwt.sign({ id, username }, process.env.JWT_SECRET_ACCESS, {
-    expiresIn: '7d'
+    expiresIn: '15min'
   });
 }
 

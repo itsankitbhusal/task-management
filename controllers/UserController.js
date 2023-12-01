@@ -55,11 +55,14 @@ class UserController {
             // generate jwt refresh and access token
             const refreshToken = signRefreshToken(username);
             const accessToken = signAccessToken(foundUser.dataValues.id, username);
+
+            // set refresh token as http only cookie
+            res.cookie('refreshToken', refreshToken, { httpOnly: true });
+
             delete foundUser.dataValues.password;
             return res.send(success({
                 user: foundUser,
-                accessToken,
-                refreshToken
+                accessToken
             }));
         } catch (e) {
             return res.send(error(e.message));
@@ -69,7 +72,11 @@ class UserController {
     // get new access token using refresh token
     getNewAccessToken = async (req, res) => {
         // get token from header refresh token
-        const token = req.headers.refresh;
+        const cookie = req.headers.cookie;
+        if (!cookie) {
+            return res.send(error('Cookie is not provided'));
+        }
+        const token = cookie.split("=")[1];
         if (!token) {
             return res.send(error('Token not provided'));
         }

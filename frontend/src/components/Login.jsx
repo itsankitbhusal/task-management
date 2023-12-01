@@ -1,6 +1,5 @@
-import axios from "axios";
+import request from "../api/axios";
 import { useState } from "react";
-import { BASE_URL } from "../constants";
 import { toast } from "react-toastify";
 import { useContext } from "react";
 import { UserContext } from "../context/UserContext";
@@ -10,20 +9,20 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const { setToken, isLoggedIn } = useContext(UserContext);
+  const { setToken } = useContext(UserContext);
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${BASE_URL}/user/login`, {
+      const response = await request.post(`/user/login`, {
         username,
         password,
       });
       const data = response.data;
       if (data.success) {
-        setToken(data?.data?.accessToken, data?.data?.refreshToken);
+        setToken(data?.data?.accessToken);
         setUsername("");
         setPassword("");
         toast.success("Logged in successfully!!");
@@ -46,7 +45,6 @@ const Login = () => {
         <h1 className=" text-2xl font-bold tracking-tighter mb-8 text-center">
           Login
         </h1>
-        {isLoggedIn && "Already logged in"}
         <div className="mb-4">
           <label htmlFor="username" className="block text-gray-700 font-medium">
             Username
